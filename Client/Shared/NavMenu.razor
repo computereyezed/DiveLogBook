@@ -12,10 +12,9 @@
     </button>
 </div>
 <AuthorizeView>
-    <Authorized>
-        <div class="scrollable-area-index">
-            <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-                <br />
+    <Authorized>       
+        <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+            <div class="scrollable-nav">
                 <div class="row">
                     <div class="col-sm-12 text-center">
                         <a href="Identity/Account/Manage" class="long-email-address-css">@context.User.Identity.Name</a>
@@ -52,8 +51,6 @@
                             <span class="oi oi-list" aria-hidden="true"></span> Dive Charts
                         </NavLink>
                     </li>
-                </ul>
-                <ul class="nav flex-column">
                     <li class="nav-item px-2">
                         <NavLink class="nav-link" @onclick="BeginSignOut">
                             <span class="oi oi-account-logout" aria-hidden="true"></span> Log out

@@ -1,6 +1,90 @@
 ﻿@page "/viewdives"
-<h3>ViewDives</h3>
+@inject HttpClient client
+@inject IJSRuntime js
 
-@code {
+@if (dives == null)
+{
+    <text>Loading...</text> }
+else if (dives.Length == 0)
+{
+    <text>No Records Found.</text> }
+else
+{
+    var tbt = 0;
+    var count = dives.Count();
 
+    foreach (DiveData div in dives)
+    {
+        tbt = tbt + div.BottomTime;
+    }
+
+    <div class="row">
+        <div class="col-sm-3 form-group">
+            <a class="btn btn-success" href="divelogbook/adddive"><i class="oi oi-plus"></i> Log New Dive</a>
+        </div>
+        <div class="col-sm-6"></div>
+        <div class="col-sm-3 justify-content-end">
+            <h5>Total Bottom Time: @tbt</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 table">
+            <div class="lh-table-container">
+                <div class="lh-header-container">
+                </div>
+                <div class="lh-table-container-inner">
+                    <table class="table table-condensed table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="lh-th"><div class="lh-th-bottomline"></div></th>
+                                <th class="lh-th"><div class="lh-th-bottomline">Date &amp; Time</div></th>
+                                <th class="lh-th"><div class="lh-th-bottomline">Depth</div></th>
+                                <th class="lh-th"><div class="lh-th-bottomline">Bottom</div></th>
+                                <th class="lh-th"><div class="lh-th-bottomline">Location</div></th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody-scrollable rowlink" data-link="row">
+                            @foreach (DiveData dive in dives)
+                            {
+                                //tbt = tbt + dive.BottomTime;
+                                /*var tt = "<span class='text-yellow'>Located in: </span>" + item.Located + "<br /><span class='text-yellow'>Latitude: </span>" + item.Latitude + "<br /><span class='text-yellow'>Longitude: </span>" + item.Longitude + "<br /><span class='text-yellow'>What to see: </span>" + item.WhatToSee + "<br />"*/
+                                ;
+
+                                <tr>
+                                    <td class="col-xs-1 lh-td">
+                                        <a class="text-primary oi oi-pencil" href="divelogbook/editdive/@dive.Id"></a>
+                                    </td>
+                                    <td class="lh-td">@dive.DiveDateTime</td>
+                                    <td class="lh-td">@dive.DiveEnteredAt</td>
+                                    <td class="lh-td">@dive.Depth</td>
+                                    <td class="lh-td">@dive.BottomTime</td>
+                                    <td class="col-xs-1 lh-td">
+                                        <a class="text-danger oi oi-delete" @onclick="@(() => Delete((int)dive.Id))"></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
 }
+
+@code { DiveData[] dives { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        dives = await client.GetFromJsonAsync<DiveData[]>("api/dive");
+    }
+
+    async Task Delete(int diveId)
+    {
+        var div = dives.First(x => x.Id == diveId);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {div.DiveDateTime} Record?"))
+        {
+            await client.DeleteAsync($"api/dive/{diveId}");
+            await OnInitializedAsync();
+        }
+    } }
+

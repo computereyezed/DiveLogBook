@@ -33,6 +33,11 @@ namespace DiveLogBook.Server
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<DiveDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DiveConnection")));
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 

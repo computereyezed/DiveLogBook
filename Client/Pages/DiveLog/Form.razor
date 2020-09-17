@@ -1,3 +1,51 @@
-﻿<h3>Form</h3>
+﻿<EditForm Model="@div" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Dive Date Time :</label>
+        <div>
+            <InputDate @bind-Value="@div.DiveDateTime" />
+            <ValidationMessage For="@(() => div.DiveDateTime)" />
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Dive Entered At :</label>
+            <div>
+                <InputDate @bind-Value="@div.DiveEnteredAt" />
+                <ValidationMessage For="@(() => div.DiveEnteredAt)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Depth :</label>
+            <div>
+                <InputNumber @bind-Value="@div.Depth" />
+                <ValidationMessage For="@(() => div.Depth)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Bottom Time :</label>
+            <div>
+                <InputNumber @bind-Value="@div.BottomTime" />
+                <ValidationMessage For="@(() => div.BottomTime)" />
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+
+</EditForm>
+
+
+@code {
+    [Parameter] public DiveData div { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}
 
 

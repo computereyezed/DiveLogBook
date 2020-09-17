@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DiveLogBook.Shared.Models.DiveData
+namespace DiveLogBook.Shared.Models.DiveInfo
 {
     public class DiveDropdownData
     {
