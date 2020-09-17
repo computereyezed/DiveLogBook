@@ -1,0 +1,15 @@
+﻿@page "/divelog/adddive"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+
+<Form ButtonText="Add Dive" div="@div"
+      OnValidSubmit="@AddaDive" />
+
+@code {
+    DiveData div = new DiveData();
+    async Task AddaDive()
+    {
+        await http.PostAsJsonAsync("api/Dive", div);
+        uriHelper.NavigateTo("viewdives");
+    }
+}
