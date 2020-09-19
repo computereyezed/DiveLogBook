@@ -29,20 +29,20 @@ namespace DiveLogBook.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<IdentityCtx>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("IdentityCon")));
 
-            services.AddDbContext<DiveDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DiveConnection")));
+            services.AddDbContext<DiveCtx>(options => options.UseSqlServer(Configuration.GetConnectionString("DiveCon")));
 
             services.AddControllersWithViews();
             services.AddRazorPages();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<IdentityCtx>();
 
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddApiAuthorization<ApplicationUser, IdentityCtx>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

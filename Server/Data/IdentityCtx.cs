@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace DiveLogBook.Server.Data
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
+    public class IdentityCtx : ApiAuthorizationDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(
+        public IdentityCtx(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {

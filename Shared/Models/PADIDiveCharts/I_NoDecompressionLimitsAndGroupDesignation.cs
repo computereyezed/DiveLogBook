@@ -6,7 +6,7 @@ namespace DiveLogBook.Shared.Models.PADIDiveCharts
 {
     public class I_NoDecompressionLimitsAndGroupDesignation
     {
-        public int BottemTimeID { get; set; }
+        public int Id { get; set; }
         public Nullable<int> Depth { get; set; }
         public Nullable<int> Time { get; set; }
         public string PressureGroup { get; set; }

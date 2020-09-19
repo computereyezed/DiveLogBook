@@ -6,7 +6,7 @@ namespace DiveLogBook.Shared.Models.PADIDiveCharts
 {
     public class SurfaceIntervalCredit
     {
-        public int SurfaceIntervalCreditID { get; set; }
+        public int Id { get; set; }
         public string StartingPressureGroup { get; set; }
         public Nullable<int> SurfaceInterval { get; set; }
         public string NewPressureGroup { get; set; }

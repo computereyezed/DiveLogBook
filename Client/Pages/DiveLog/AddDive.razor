@@ -6,7 +6,7 @@
       OnValidSubmit="@AddaDive" />
 
 @code {
-    DiveData div = new DiveData();
+    Dives div = new Dives();
     async Task AddaDive()
     {
         await http.PostAsJsonAsync("api/Dive", div);

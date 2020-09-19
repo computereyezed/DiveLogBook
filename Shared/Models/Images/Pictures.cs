@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DiveLogBook.Shared.Models.Images
 {
-    public class Picture
+    public class Pictures
     {
         public long Id { get; set; }
         public string Name { get; set; }

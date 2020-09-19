@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DiveLogBook.Shared.Models.DiveInfo
 {
-    public class DiveData
+    public class Dives
     {
         public long Id { get; set; }
         public System.Guid UserID { get; set; }

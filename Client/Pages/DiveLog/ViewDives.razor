@@ -3,6 +3,7 @@
 @inject IJSRuntime js
 @{
     string title = string.Empty;
+    decimal tbt = 0;
 }
 @if (dives == null)
 {
@@ -10,30 +11,21 @@
 }
 else if (dives.Length == 0)
 {
-    title = "No Records Found.";
-
-    <div class="row">
-        <div class="col-sm-12 text-center">
-            <text>@title</text>
-        </div>
+<div class="row">
+    <div class="col-sm-3 form-group">
+        <a class="btn btn-success" href="divelog/adddive"><i class="oi oi-plus"></i> Log New Dive</a>
     </div>
-
-    <div class="row">
-        <div class="col-sm-3 form-group">
-            <a class="btn btn-success" href="divelog/adddive"><i class="oi oi-plus"></i> Log New Dive</a>
-        </div>
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6 justify-content-end">
-            <h5>Total Bottom Time: 0</h5>
-        </div>
+    <div class="col-sm-3"><h5>No Records Found.</h5></div>
+    <div class="col-sm-6 justify-content-end">
+        <h5>Total HR's Bottom Time: 0</h5>
     </div>
+</div>
 }
 else
 {
-    var tbt = 0;
     var count = dives.Count();
 
-    foreach (DiveData div in dives)
+    foreach (Dives div in dives)
     {
         tbt = tbt + div.BottomTime;
     }
@@ -42,9 +34,9 @@ else
         <div class="col-sm-3 form-group">
             <a class="btn btn-success" href="divelog/adddive"><i class="oi oi-plus"></i> Log New Dive</a>
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-3"><h5>Records Found @count</h5></div>
         <div class="col-sm-6 justify-content-end">
-            <h5>Total HR's Bottom Time: @tbt</h5>
+            <h5>Total HR's Bottom Time: @tbt.ToString("N2")</h5>
         </div>
     </div>
     <div class="row">
@@ -65,7 +57,7 @@ else
                             </tr>
                         </thead>
                         <tbody class="rowlink" data-link="row">
-                            @foreach (DiveData dive in dives)
+                            @foreach (Dives dive in dives)
                             {
                                 //var tt = "<span class='text-yellow'>Located in: </span>test<br /><span class='text-yellow'>Latitude: </span>here<br /><span class='text-yellow'>Longitude: </span>test<br /><span class='text-yellow'>What to see: </span>see<br />"
                                 ;
@@ -91,10 +83,10 @@ else
     </div>
 }
 
-@code { DiveData[] dives { get; set; }
+@code { Dives[] dives { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        dives = await client.GetFromJsonAsync<DiveData[]>("api/dive");
+        dives = await client.GetFromJsonAsync<Dives[]>("api/dive");
     }
 
     async Task Delete(int diveId)

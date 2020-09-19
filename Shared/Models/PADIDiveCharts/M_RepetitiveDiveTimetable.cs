@@ -6,7 +6,7 @@ namespace DiveLogBook.Shared.Models.PADIDiveCharts
 {
     public class M_RepetitiveDiveTimetable
     {
-        public int RepetitiveDiveTimetableID { get; set; }
+        public int Id { get; set; }
         public string Column_0 { get; set; }
         public Nullable<int> Depth { get; set; }
         public Nullable<int> Z { get; set; }
