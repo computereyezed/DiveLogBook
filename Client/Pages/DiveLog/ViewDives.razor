@@ -25,20 +25,20 @@ else
 {
     var count = dives.Count();
 
-    foreach (Dives div in dives)
+    foreach (DiveView div in dives)
     {
         tbt = tbt + div.BottomTime;
     }
     tbt = tbt / 60;
-    <div class="row">
-        <div class="col-sm-3 form-group">
-            <a class="btn btn-success" href="divelog/adddive"><i class="oi oi-plus"></i> Log New Dive</a>
-        </div>
-        <div class="col-sm-3"><h5>Records Found @count</h5></div>
-        <div class="col-sm-6 justify-content-end">
-            <h5>Total HR's Bottom Time: @tbt.ToString("N2")</h5>
-        </div>
+<div class="row">
+    <div class="col-sm-3 form-group">
+        <a class="btn btn-success" href="divelog/adddive"><i class="oi oi-plus"></i> Log New Dive</a>
     </div>
+    <div class="col-sm-3"><h5>Records Found @count</h5></div>
+    <div class="col-sm-6 justify-content-end">
+        <h5>Total HR's Bottom Time: @tbt.ToString("N2")</h5>
+    </div>
+</div>
     <div class="row">
         <div class="col-sm-12 table">
             <div class="lh-table-container">
@@ -49,6 +49,7 @@ else
                         <thead>
                             <tr>
                                 <th class="lh-th"><div class="lh-th-bottomline"></div></th>
+                                <th class="lh-th"><div class="lh-th-bottomline"></div></th>
                                 <th class="lh-th"><div class="lh-th-bottomline">Date &amp; Time</div></th>
                                 <th class="lh-th"><div class="lh-th-bottomline">Depth</div></th>
                                 <th class="lh-th"><div class="lh-th-bottomline">Bottom</div></th>
@@ -57,21 +58,22 @@ else
                             </tr>
                         </thead>
                         <tbody class="rowlink" data-link="row">
-                            @foreach (Dives dive in dives)
+                            @foreach (DiveView dive in dives)
                             {
                                 //var tt = "<span class='text-yellow'>Located in: </span>test<br /><span class='text-yellow'>Latitude: </span>here<br /><span class='text-yellow'>Longitude: </span>test<br /><span class='text-yellow'>What to see: </span>see<br />"
                                 ;
 
                                 <tr>
+                                    <td class="lh-td">@dive.DiverId</td>
                                     <td class="col-xs-1 lh-td">
-                                        <a class="text-primary oi oi-pencil" href="divelog/editdive/@dive.Id"></a>
+                                        <a class="text-primary oi oi-pencil" href="divelog/editdive/@dive.DiveLogId"></a>
                                     </td>
                                     <td class="lh-td">@dive.DiveDateTime</td>
                                     <td class="lh-td">@dive.Depth</td>
                                     <td class="lh-td">@dive.BottomTime</td>
-                                    <td class="lh-td" data-toggle="tooltip" title="Hooray!">@dive.DiveLocationID</td>
+                                    <td class="lh-td" id="tooltip1">@dive.Located</td>                                   
                                     <td class="col-xs-1 lh-td">
-                                        <a class="text-danger oi oi-delete" @onclick="@(() => Delete((int)dive.Id))"></a>
+                                        <a class="text-danger oi oi-delete" @onclick="@(() => Delete((int)dive.DiveLogId))"></a>
                                     </td>
                                 </tr>
                             }
@@ -83,20 +85,20 @@ else
     </div>
 }
 
-@code { Dives[] dives { get; set; }
+@code { DiveView[] dives { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        dives = await client.GetFromJsonAsync<Dives[]>("api/dive");
+        dives = await client.GetFromJsonAsync<DiveView[]>("api/dive");
     }
 
     async Task Delete(int diveId)
     {
-        var div = dives.First(x => x.Id == diveId);
-        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {div.DiveDateTime} Record?"))
-        {
-            await client.DeleteAsync($"api/dive/{diveId}");
-            await OnInitializedAsync();
-        }
+        //var div = DiveView.First(x => x.Id == diveId);
+        //if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {div.DiveDateTime} Record?"))
+        //{
+        //    await client.DeleteAsync($"api/dive/{diveId}");
+        //    await OnInitializedAsync();
+        //}
     }
 
 

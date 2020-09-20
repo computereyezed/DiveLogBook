@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DiveLogBook.Server.Data;
 
 using DiveLogBook.Shared.Models.DiveInfo;
+using DiveLogBook.Shared.Models.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +24,33 @@ namespace DiveLogBook.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-            var dives = await _divectx.Dives.ToListAsync();
-            return Ok(dives);
+            var query = from d in _divectx.Dives
+                        join dl in _divectx.Locations on d.DiveLocationID equals dl.Id
+                        join c in _divectx.Countries on dl.CountryID equals c.Id
+                        //where d.UserID == userid
+                        orderby d.DiveDateTime descending
+                        select new DiveView
+                        {
+                            DiveLogId = d.Id,
+                            DiverId = d.UserID,
+                            DiveLocationId = d.DiveLocationID,
+                            DiveDateTime = d.DiveDateTime,
+                            Depth = d.Depth,
+                            BottomTime = d.BottomTime,
+                            Country = c.Country,
+                            Located = dl.Located,
+                            Location = dl.Location,
+                            Latitude = dl.Latitude,
+                            Longitude = dl.Longitude,
+                            WhatToSee = dl.WhatToSee,
+                            Comments = dl.Comments
+                        };
+            var dive = new List<DiveView>(query);
+            return Ok(dive);
+            //var dives = await _divectx.Dives.ToListAsync();
+            //return Ok(dives);
         }
 
         [HttpGet("{id}")]
